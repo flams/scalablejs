@@ -1,4 +1,6 @@
-scalable.js
+Scalable.js
 ===========
 
-[WIP] A framework for building scalable web applications
+[WIP] A platform for building scalable web applications
+
+
