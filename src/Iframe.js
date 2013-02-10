@@ -12,4 +12,13 @@ define(
 */
 function Iframe() {
 
+	return function IframeConstructor() {
+
+		this.create = function create() {
+
+		};
+
+	};
+
+
 });

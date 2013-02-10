@@ -14,8 +14,6 @@
 #
 # #make release VERSION=x.x.x: make all, then creates the package and pushes to github
 #
-# #make gh-pages VERSION=x.x.x: generates the web site with latest version and pushes to github
-#
 ################################################################################################
 
 SRC := $(wildcard src/*.js)
@@ -91,26 +89,4 @@ Scalable.js: temp.js
 
 clean: clean-build clean-docs clean-temp
 
-gh-pages:
-ifndef VERSION
-	@echo "You must give a VERSION number to make gh-pages"
-	@exit 2
-endif
-
-	git checkout gh-pages
-
-	git checkout master build Makefile docs src specs tools lib release
-	git add build docs src specs tools lib release
-
-	sed -i .bak 's#version">.*<#version">'${VERSION}'<#g' index.html
-	sed -i .bak 's#<a href="release/Scalable.*\.tgz">#<a href="release/Scalable-'${VERSION}'.tgz">#' index.html
-	rm index.html.bak
-
-	git commit -am "updated to $(VERSION)"
-
-	git push
-
-	git checkout master
-
-
-.PHONY: docs clean-docs clean-build build tests release clean gh-pages
+.PHONY: docs clean-docs clean-build build tests release clean
