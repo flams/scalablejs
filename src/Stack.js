@@ -4,11 +4,19 @@
  * Copyright (c) 2013 Olivier Scherrer <pode.fr@gmail.com>
  */
 
-require(["Iframes"], function (Iframe) {
+define(
 
-	describe("Iframes", function () {
+/**
+* @class
+*/
+function Stack() {
 
+	return function StackConstructor() {
 
-	});
+		this.add = function add() {
+
+		};
+
+	};
 
 });

@@ -1,6 +1,6 @@
 ({
     baseUrl: "../src",
-    include: ["Iframe"],
+    include: ["Iframe", "Stack"],
     optimize: "none",
     out: "../temp.js"
 })
