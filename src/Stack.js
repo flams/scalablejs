@@ -17,6 +17,34 @@ function Stack() {
 
 		};
 
+		this.remove = function remove() {
+
+		};
+
+		this.place = function place() {
+
+		};
+
+		this.up = function up() {
+
+		};
+
+		this.down = function down() {
+
+		};
+
+		this.insert = function insert() {
+
+		};
+
+		this.getPosition = function getPosition() {
+
+		};
+
+		this.count = function count() {
+
+		};
+
 	};
 
 });
