@@ -38,8 +38,17 @@ function Stack() {
 			}
 		};
 
-		this.place = function place() {
-
+		this.place = function place(newParentDom) {
+			if (newParentDom instanceof HTMLElement) {
+				[].slice.call(_parent.childNodes).forEach(function (childDom) {
+					if (this.has(childDom)) {
+						newParentDom.appendChild(childDom);
+					}
+				}, this);
+				return this.setParent(newParentDom);
+			} else {
+				return false;
+			}
 		};
 
 		this.up = function up() {
@@ -54,16 +63,15 @@ function Stack() {
 
 		};
 
-		this.getPosition = function getPosition() {
-
+		this.getPosition = function getPosition(dom) {
 		};
 
 		this.count = function count() {
 
 		};
 
-		this.has = function has() {
-
+		this.has = function has(childDom) {
+			return _childNodes.indexOf(childDom) >= 0;
 		};
 
 		this.getParent = function _getParent() {
@@ -72,8 +80,7 @@ function Stack() {
 
 		this.setParent = function setParent(parent) {
 			if (parent instanceof HTMLElement) {
-				_parent = parent;
-				return parent;
+				return _parent = parent;
 			} else {
 				return false;
 			}

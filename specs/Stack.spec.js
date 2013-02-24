@@ -78,8 +78,36 @@ require(["Stack"], function (Stack) {
 
 		it("should have a function for appending the stack to a parent DOM element", function () {
 			expect(stack.place).toBeInstanceOf(Function);
+			var newPlace = document.createElement("div");
 
-			stack.place(parentDom)
+			expect(stack.place({})).toBe(false);
+			expect(stack.place(newPlace)).toBe(newPlace);
+
+			expect(stack.getParent()).toBe(newPlace);
+		});
+
+		it("should carry over the dom nodes from the previous place", function () {
+			var place1 = document.createElement("div"),
+				place2 = document.createElement("div"),
+				dom1 = document.createElement("p"),
+				dom2 = document.createElement("p"),
+				dom3 = document.createElement("p");
+
+			// The stack is placed at place1
+			stack.place(place1);
+			// It has two child dom nodes
+			stack.add(dom1);
+			stack.add(dom2);
+
+			// dom3 is not part of the stack, placing the stack somewhere else
+			// shouldn't move this one
+			place1.appendChild(dom3);
+
+			stack.place(place2);
+
+			expect(place2.childNodes[0]).toBe(dom1);
+			expect(place2.childNodes[1]).toBe(dom2);
+			expect(place1.childNodes[0]).toBe(dom3);
 		});
 
 		it("should have a function for moving an element up in the stack", function () {
