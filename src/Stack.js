@@ -53,8 +53,8 @@ function Stack() {
 
 		this.up = function up(dom) {
 			if (this.has(dom)) {
-				var domPosition = [].slice.call(_parent.childNodes).indexOf(dom);
-				_parent.insertBefore(dom, _parent.childNodes[domPosition-1]);
+				var domPosition = this.getPosition(dom);
+				this.move(dom, domPosition-1);
 				return dom;
 			} else {
 				return false;
@@ -63,8 +63,17 @@ function Stack() {
 
 		this.down = function down(dom) {
 			if (this.has(dom)) {
-				var domPosition = [].slice.call(_parent.childNodes).indexOf(dom);
-				_parent.insertBefore(dom, _parent.childNodes[domPosition+2]);
+				var domPosition = this.getPosition(dom);
+				this.move(dom, domPosition+2);
+				return dom;
+			} else {
+				return false;
+			}
+		};
+
+		this.move = function move(dom, position) {
+			if (this.has(dom)) {
+				_parent.insertBefore(dom, _parent.childNodes[position]);
 				return dom;
 			} else {
 				return false;
@@ -76,10 +85,11 @@ function Stack() {
 		};
 
 		this.getPosition = function getPosition(dom) {
+			return [].slice.call(_parent.childNodes).indexOf(dom);
 		};
 
 		this.count = function count() {
-
+			return _parent.childNodes.length;
 		};
 
 		this.has = function has(childDom) {
