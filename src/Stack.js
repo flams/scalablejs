@@ -17,8 +17,7 @@ function Stack() {
 			_childNodes = [];
 
 		this.add = function add(dom) {
-			var index = _childNodes.indexOf(dom);
-			if (index < 0) {
+			if (!this.has(dom)) {
 				_parent.appendChild(dom);
 				_childNodes.push(dom);
 				return dom;
@@ -28,8 +27,9 @@ function Stack() {
 		};
 
 		this.remove = function remove(dom) {
-			var index = _childNodes.indexOf(dom);
-			if (index >= 0) {
+			var index;
+			if (this.has(dom)) {
+				index = _childNodes.indexOf(dom);
 				_parent.removeChild(dom);
 				_childNodes.splice(index, 1);
 				return dom;
@@ -45,18 +45,30 @@ function Stack() {
 						newParentDom.appendChild(childDom);
 					}
 				}, this);
-				return this.setParent(newParentDom);
+				return this._setParent(newParentDom);
 			} else {
 				return false;
 			}
 		};
 
-		this.up = function up() {
-
+		this.up = function up(dom) {
+			if (this.has(dom)) {
+				var domPosition = [].slice.call(_parent.childNodes).indexOf(dom);
+				_parent.insertBefore(dom, _parent.childNodes[domPosition-1]);
+				return dom;
+			} else {
+				return false;
+			}
 		};
 
-		this.down = function down() {
-
+		this.down = function down(dom) {
+			if (this.has(dom)) {
+				var domPosition = [].slice.call(_parent.childNodes).indexOf(dom);
+				_parent.insertBefore(dom, _parent.childNodes[domPosition+2]);
+				return dom;
+			} else {
+				return false;
+			}
 		};
 
 		this.insert = function insert() {
@@ -78,7 +90,7 @@ function Stack() {
 				return _parent;
 		};
 
-		this.setParent = function setParent(parent) {
+		this._setParent = function _setParent(parent) {
 			if (parent instanceof HTMLElement) {
 				return _parent = parent;
 			} else {

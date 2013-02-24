@@ -21,9 +21,9 @@ require(["Stack"], function (Stack) {
 		});
 
 		it("should have a function to set the Parent element", function () {
-			expect(stack.setParent).toBeInstanceOf(Function);
-			expect(stack.setParent({})).toBe(false);
-			expect(stack.setParent(parentDom)).toBe(parentDom);
+			expect(stack._setParent).toBeInstanceOf(Function);
+			expect(stack._setParent({})).toBe(false);
+			expect(stack._setParent(parentDom)).toBe(parentDom);
 
 			expect(stack.getParent()).toBe(parentDom);
 		});
@@ -46,9 +46,10 @@ require(["Stack"], function (Stack) {
 			parentDom = document.createElement("div");
 			childDom = document.createElement("p");
 
-			spyOn(parentDom, "appendChild");
-			spyOn(parentDom, "removeChild");
-			stack.setParent(parentDom);
+			spyOn(parentDom, "appendChild").andCallThrough();
+			spyOn(parentDom, "removeChild").andCallThrough();
+			spyOn(parentDom, "insertBefore").andCallThrough();
+			stack._setParent(parentDom);
 		});
 
 		it("should have a function for adding a DOM element", function () {
@@ -87,35 +88,55 @@ require(["Stack"], function (Stack) {
 		});
 
 		it("should carry over the dom nodes from the previous place", function () {
-			var place1 = document.createElement("div"),
-				place2 = document.createElement("div"),
+			var newPlace = document.createElement("div"),
 				dom1 = document.createElement("p"),
 				dom2 = document.createElement("p"),
 				dom3 = document.createElement("p");
 
-			// The stack is placed at place1
-			stack.place(place1);
-			// It has two child dom nodes
 			stack.add(dom1);
 			stack.add(dom2);
 
 			// dom3 is not part of the stack, placing the stack somewhere else
 			// shouldn't move this one
-			place1.appendChild(dom3);
+			parentDom.appendChild(dom3);
 
-			stack.place(place2);
+			stack.place(newPlace);
 
-			expect(place2.childNodes[0]).toBe(dom1);
-			expect(place2.childNodes[1]).toBe(dom2);
-			expect(place1.childNodes[0]).toBe(dom3);
+			expect(newPlace.childNodes[0]).toBe(dom1);
+			expect(newPlace.childNodes[1]).toBe(dom2);
+			expect(parentDom.childNodes[0]).toBe(dom3);
 		});
 
 		it("should have a function for moving an element up in the stack", function () {
+			var dom1 = document.createElement("p"),
+				dom2 = document.createElement("p");
+
 			expect(stack.up).toBeInstanceOf(Function);
+
+			expect(stack.up(document.createElement("div"))).toBe(false);
+			stack.add(dom1);
+			stack.add(dom2);
+
+			expect(stack.up(dom2)).toBe(dom2);
+
+			expect(parentDom.childNodes[0]).toBe(dom2);
+			expect(parentDom.childNodes[1]).toBe(dom1);
 		});
 
 		it("should have a function for moving an element down in the stack", function () {
+			var dom1 = document.createElement("p"),
+				dom2 = document.createElement("p");
+
 			expect(stack.down).toBeInstanceOf(Function);
+
+			expect(stack.down(document.createElement("div"))).toBe(false);
+			stack.add(dom1);
+			stack.add(dom2);
+
+			expect(stack.down(dom1)).toBe(dom1);
+
+			expect(parentDom.childNodes[0]).toBe(dom2);
+			expect(parentDom.childNodes[1]).toBe(dom1);
 		});
 
 		it("should have a function for placing the element at a specific position", function () {
