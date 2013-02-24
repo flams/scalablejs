@@ -33,6 +33,13 @@ require(["Stack"], function (Stack) {
 			expect(stack.getParent().nodeName).toBe("#document-fragment");
 		});
 
+		it("can be initialised with a parent element", function () {
+			var parent = document.createElement("div"),
+				newStack = new Stack(parent);
+
+			expect(newStack.getParent()).toBe(parent);
+		});
+
 	});
 
 	describe("Stack API", function () {

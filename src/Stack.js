@@ -7,15 +7,34 @@
 define(
 
 /**
-* @class
-*/
+ * A Stack is a tool for managing DOM elements as groups. Within a group, dom elements
+ * can be added, removed, moved around. The group can be moved to another parent node
+ * while keeping the DOM elements in the same order, excluding the parent dom elements's
+ * children that are not in the Stack.
+ * @class
+ */
 function Stack() {
 
-	return function StackConstructor() {
+	return function StackConstructor($parent) {
 
+		/**
+		 * The parent DOM element is a documentFragment by default
+		 * @private
+		 */
 		var _parent = document.createDocumentFragment(),
-			_childNodes = [];
 
+		/**
+		 * The list of dom elements that are part of the stack
+		 * Helps for excluding elements that are not part of it
+		 * @private
+		 */
+		_childNodes = [];
+
+		/**
+		 * Add a DOM element to the stack. It will be appended.
+		 * @param {HTMLElement} dom the DOM element to add
+		 * @returns {HTMLelement} dom
+		 */
 		this.add = function add(dom) {
 			if (!this.has(dom) && dom instanceof HTMLElement) {
 				_parent.appendChild(dom);
@@ -26,6 +45,11 @@ function Stack() {
 			}
 		};
 
+		/**
+		 * Add a DOM element to the stack. It will be appended.
+		 * @param {HTMLElement} dom the DOM element to add
+		 * @returns {HTMLelement} dom
+		 */
 		this.remove = function remove(dom) {
 			var index;
 			if (this.has(dom)) {
@@ -113,6 +137,8 @@ function Stack() {
 				return false;
 			}
 		};
+
+		this._setParent($parent);
 
 	};
 
