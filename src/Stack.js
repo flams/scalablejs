@@ -17,10 +17,10 @@ function Stack() {
 			_childNodes = [];
 
 		this.add = function add(dom) {
-			var index = _parent.indexOf(dom);
+			var index = _childNodes.indexOf(dom);
 			if (index < 0) {
 				_parent.appendChild(dom);
-				_childNodes.push(_childNodes);
+				_childNodes.push(dom);
 				return dom;
 			} else {
 				return false;
@@ -28,10 +28,10 @@ function Stack() {
 		};
 
 		this.remove = function remove(dom) {
-			var index = _parent.indexOf(dom);
+			var index = _childNodes.indexOf(dom);
 			if (index >= 0) {
 				_parent.removeChild(dom);
-				_childNodes.splice(_childNodes.indexOf(dom), 1);
+				_childNodes.splice(index, 1);
 				return dom;
 			} else {
 				return false;

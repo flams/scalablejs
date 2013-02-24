@@ -47,6 +47,7 @@ require(["Stack"], function (Stack) {
 			childDom = document.createElement("p");
 
 			spyOn(parentDom, "appendChild");
+			spyOn(parentDom, "removeChild");
 			stack.setParent(parentDom);
 		});
 
@@ -60,8 +61,8 @@ require(["Stack"], function (Stack) {
 		});
 
 		it("shouldn't add an element that is already in the stack", function () {
-			expect(stack.add(childDom)).toBe(true);
-			expect(stack.remove(childDom)).toBe(false);
+			expect(stack.add(childDom)).toBe(childDom);
+			expect(stack.add(childDom)).toBe(false);
 		});
 
 		it("should have a function for removing a DOM element", function () {
