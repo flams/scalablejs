@@ -153,15 +153,32 @@ require(["Stack"], function (Stack) {
 			expect(parentDom.childNodes[0]).toBe(dom3);
 		});
 
-		it("should have a function for placing an element at a specific position in the stack", function () {
+		it("should have a function for inserting a new element at a specific position in the stack", function () {
+			var dom1 = document.createElement("p"),
+				dom2 = document.createElement("p");
+				dom3 = document.createElement("p");
+
 			expect(stack.insert).toBeInstanceOf(Function);
+			stack.add(dom1);
+			stack.add(dom3);
 
+			expect(stack.insert(dom2, 1)).toBe(dom2);
 
+			expect(parentDom.childNodes[1]).toBe(dom2);
+			expect(stack.getPosition(dom2)).toBe(1);
 		});
 
 		it("should have a function for getting the current position in the stack", function () {
-			expect(stack.getPosition).toBeInstanceOf(Function);
+			var dom1 = document.createElement("p"),
+				dom2 = document.createElement("p");
+				dom3 = document.createElement("p");
 
+			expect(stack.getPosition).toBeInstanceOf(Function);
+			stack.add(dom1);
+			stack.add(dom2);
+			stack.add(dom3);
+
+			expect(stack.getPosition(dom3)).toBe(2);
 		});
 
 		it("should have a function for getting the length of the stack", function () {
@@ -173,10 +190,11 @@ require(["Stack"], function (Stack) {
 		});
 
 		it("should have a function for telling if a DOM element is in the stack", function () {
+			var dom = document.createElement("p");
+
 			expect(stack.has).toBeInstanceOf(Function);
-			var myDom = {};
-
-
+			stack.add(dom);
+			expect(stack.has(dom)).toBe(true);
 		});
 
 	});

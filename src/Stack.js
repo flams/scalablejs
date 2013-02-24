@@ -17,7 +17,7 @@ function Stack() {
 			_childNodes = [];
 
 		this.add = function add(dom) {
-			if (!this.has(dom)) {
+			if (!this.has(dom) && dom instanceof HTMLElement) {
 				_parent.appendChild(dom);
 				_childNodes.push(dom);
 				return dom;
@@ -80,8 +80,14 @@ function Stack() {
 			}
 		};
 
-		this.insert = function insert() {
-
+		this.insert = function insert(dom, position) {
+			if (!this.has(dom) && dom instanceof HTMLElement) {
+				_childNodes.push(dom);
+				_parent.insertBefore(dom, _parent.childNodes[position]);
+				return dom;
+			} else {
+				return false;
+			}
 		};
 
 		this.getPosition = function getPosition(dom) {
@@ -106,10 +112,6 @@ function Stack() {
 			} else {
 				return false;
 			}
-		};
-
-		this._getAll = function _getAll() {
-
 		};
 
 	};
