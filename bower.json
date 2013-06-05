@@ -1,0 +1,9 @@
+{
+  "name": "scalablejs",
+  "version": "0.0.1",
+  "dependencies": {
+    "olives": "~1.4.0",
+    "emily": "~1.3.5",
+    "requirejs": "~2.1.5"
+  }
+}
