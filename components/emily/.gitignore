@@ -1,0 +1,11 @@
+# Eclipse IDE files
+.settings/
+.project
+*/.DS_Store
+material/
+.DS_Store
+emily.sublime-project
+emily.sublime-workspace
+couchdb.stderr
+couchdb.stdout
+temp.js
